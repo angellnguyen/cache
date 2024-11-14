@@ -1,0 +1,43 @@
+Enter the number of cache blocks: 
+4
+Enter the associativity (1 for Direct-mapped, 2 for 2-way, 4 for 4-way, 3 for Fully-associative): 
+2
+Enter the number of block address references: 
+5
+Enter the block address references: 
+0 0 1 1
+Cache Output: 
+Set 0: [0]
+Set 8: [8]
+Set 6: [0]
+
+Cache Miss Rate: 3
+
+Enter the number of cache blocks: 
+4
+Enter the associativity (1 for Direct-mapped, 2 for 2-way, 4 for 4-way, 3 for Fully-associative): 
+1
+Enter the number of block address references: 
+4
+Enter the block address references: 
+0 1 2 3
+Cache Output: 
+Set 0: [0]
+Set 1: [8]
+Set 2: [0]
+Set 3: [6]
+Cache Miss Rate: 4
+
+Enter the number of cache blocks: 
+4
+Enter the associativity (1 for Direct-mapped, 2 for 2-way, 4 for 4-way, 3 for Fully-associative): 
+3
+Enter the number of block address references: 
+4
+Enter the block address references: 
+0 1 2 3 
+Cache Output: 
+Set 0: [0]
+Set 1: [8]
+Set 2: [6]
+Cache Miss Rate: 3
