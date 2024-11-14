@@ -1,0 +1,79 @@
+import java.util.*;
+
+class Cache {
+    private final int numBlocks;
+    private final int associativity;
+    private final Map<Integer, LinkedList<Integer>> cacheSets;
+    private final int blocksPerSet;
+    private int cacheMisses;
+    private int cacheHits;
+    
+    public Cache(int numBlocks, int associativity) {
+        this.numBlocks = numBlocks;
+        this.associativity = associativity;
+        this.cacheSets = new HashMap<>();
+        this.blocksPerSet = associativity == 3 ? numBlocks : associativity;  
+        this.cacheMisses = 0;
+        this.cacheHits = 0;
+    }
+    
+    public void accessBlock(int blockAddress) {
+        int setIndex = associativity == 3 ? 0 : blockAddress % (numBlocks / blocksPerSet); 
+        
+        cacheSets.putIfAbsent(setIndex, new LinkedList<>());
+        LinkedList<Integer> set = cacheSets.get(setIndex);
+        
+        if (set.contains(blockAddress)) {
+            set.remove((Integer) blockAddress);  
+            set.addFirst(blockAddress); 
+            cacheHits++;
+        } else {
+
+            if (set.size() == blocksPerSet) {
+                set.removeLast(); 
+            set.addFirst(blockAddress);  
+            cacheMisses++;
+        }
+    }
+    }
+    public void displayCacheContent() {
+        System.out.println("Cache Output: ");
+        for (Map.Entry<Integer, LinkedList<Integer>> entry : cacheSets.entrySet()) {
+            System.out.println("Set " + entry.getKey() + ": " + entry.getValue());
+        }
+    }
+    
+    public double getMissRate(int totalReferences) {
+        return (double) cacheMisses / totalReferences * 100;
+    }
+}
+
+public class CacheSimulator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter the number of cache blocks: ");
+        int numBlocks = scanner.nextInt();
+        
+        System.out.println("Enter the associativity (1 for Direct-mapped, 2 for 2-way, 4 for 4-way, 3 for Fully-associative): ");
+        int associativity = scanner.nextInt();
+        
+        System.out.println("Enter the number of block address references: ");
+        int numReferences = scanner.nextInt();
+        int[] blockAddresses = new int[numReferences];
+        
+        System.out.println("Enter the block address references: ");
+        for (int i = 0; i < numReferences; i++) {
+            blockAddresses[i] = scanner.nextInt();
+        }
+        Cache cache = new Cache(numBlocks, associativity);
+        
+        for (int address : blockAddresses) {
+            cache.accessBlock(address);
+        }
+        
+        cache.displayCacheContent();
+        double missRate = cache.getMissRate(numReferences);
+        System.out.println("Cache Miss Rate: " + missRate + "%");
+    }
+}
